@@ -258,8 +258,12 @@ namespace LaunchDarkly.Client
         {
             Logger.LogInformation("Closing LaunchDarkly client.");
             //We do not have native resource, so the boolean parameter can be ignored.
-            if (_eventStore is EventProcessor)
-                ((_eventStore) as IDisposable).Dispose();
+
+            IDisposable disposableEventStore = _eventStore as IDisposable;
+            if (disposableEventStore != null)
+            {
+                disposableEventStore.Dispose();
+            }
 
             if (_updateProcessor != null)
             {
