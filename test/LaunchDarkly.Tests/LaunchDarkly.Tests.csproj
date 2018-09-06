@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="LaunchDarkly.Common.StrongName" Version="1.1.1" />
+    <PackageReference Include="D2L.LaunchDarkly.Common" Version="1.1.1.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
     <PackageReference Include="Moq" Version="4.8.1" />
     <PackageReference Include="WireMock.Net" Version="1.0.3.8" />
@@ -29,8 +29,6 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>../../LaunchDarkly.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
     <PublicSign Condition="'$(OS)' != 'Windows_NT'">true</PublicSign>
   </PropertyGroup>
 

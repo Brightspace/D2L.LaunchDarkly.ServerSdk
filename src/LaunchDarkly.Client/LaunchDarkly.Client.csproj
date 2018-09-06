@@ -6,7 +6,7 @@
     <DebugType>portable</DebugType>
     <AssemblyName>LaunchDarkly.Client</AssemblyName>
     <OutputType>Library</OutputType>
-    <PackageId>LaunchDarkly.Client</PackageId>
+    <PackageId>D2L.LaunchDarkly.Client</PackageId>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -15,10 +15,10 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="LaunchDarkly.Common.StrongName" Version="1.1.1" />
+    <PackageReference Include="D2L.LaunchDarkly.Common" Version="1.1.1.1" />
     <PackageReference Include="Common.Logging" Version="3.4.1" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" Condition="'$(TargetFramework)' != 'net45'" />
-    <PackageReference Include="Newtonsoft.Json" Version="6.0.1" Condition="'$(TargetFramework)' == 'net45'" />
+    <PackageReference Include="Newtonsoft.Json" Version="6.0.6" Condition="'$(TargetFramework)' == 'net45'" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
     <Reference Include="System" />
@@ -27,8 +27,6 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>../../LaunchDarkly.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
     <PublicSign Condition="'$(OS)' != 'Windows_NT'">true</PublicSign>
   </PropertyGroup>
 
