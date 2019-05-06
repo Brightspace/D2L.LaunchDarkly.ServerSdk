@@ -2,6 +2,49 @@
 
 All notable changes to the LaunchDarkly .NET SDK will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [5.6.2] - 2019-03-26
+### Changed:
+- The default value for the configuration property `capacity` (maximum number of events that can be stored at once) is now 10000, consistent with the other SDKs, rather than 500.
+
+### Fixed:
+- Under some circumstances, a `CancellationTokenSource` might not be disposed of after making an HTTP request, which could cause a timer object to be leaked. ([#100](https://github.com/launchdarkly/dotnet-client/issues/100))
+- In polling mode, if the client received an HTTP error it would retry the same request one second later. This was inconsistent with the other SDKs; the correct behavior is for it to wait until the next scheduled poll.
+- The `HttpClientTimeout` configuration property was being ignored when making HTTP requests to send analytics events.
+
+## [5.6.1] - 2019-01-14
+### Fixed:
+- The assemblies in this package now have Authenticode signatures.
+
+## [5.6.0] - 2019-01-09
+### Added:
+- There are now helper classes that make it much simpler to write a custom `IFeatureStore` implementation. See the `LaunchDarkly.Client.Utils` namespace.
+- The new `FeatureStoreCaching` class will be used by database feature store integrations in the future. It is not used by the SDK client itself.
+
+### Changed:
+- Some support code has been moved into a separate assembly, [`LaunchDarkly.Cache`](https://github.com/launchdarkly/dotnet-cache).
+- The published assemblies are now built in Release configuration and no longer contain debug information.
+- If you are building a copy of the SDK yourself, the Debug configuration no longer does any signing, so does not require a key file.
+
+## [5.5.0] - 2018-10-30
+### Added:
+- It is now possible to inject feature flags into the client from local JSON or YAML files, replacing the normal LaunchDarkly connection. This would typically be for testing purposes. See `LaunchDarkly.Client.Files.FileComponents`.
+
+- The `AllFlagsState` method now accepts a new option, `FlagsStateOption.DetailsOnlyForTrackedFlags`, which reduces the size of the JSON representation of the flag state by omitting some metadata. Specifically, it omits any data that is normally used for generating detailed evaluation events if a flag does not have event tracking or debugging turned on.
+
+- The non-strong-named version of this library (`LaunchDarkly.Common`) can now be used with a non-strong-named version of LaunchDarkly.Client, which does not normally exist but could be built as part of a fork of the SDK.
+
+### Changed:
+- Previously, the delay before stream reconnect attempts would increase exponentially only if the previous connection could not be made at all or returned an HTTP error; if it received an HTTP 200 status, the delay would be reset to the minimum even if the connection then immediately failed. Now, if the stream connection fails after it has been up for less than a minute, the reconnect delay will continue to increase.
+
+### Fixed:
+- Fixed an [unobserved exception](https://blogs.msdn.microsoft.com/pfxteam/2011/09/28/task-exception-handling-in-net-4-5/) that could occur following a stream timeout, which could cause a crash in .NET 4.0.
+
+- Fixed a `NullReferenceException` that could sometimes appear in the log if a stream connection failed.
+
+- Fixed the documentation for `Configuration.StartWaitTime` to indicate that the default is 10 seconds, not 5 seconds. (Thanks, [KimboTodd](https://github.com/launchdarkly/dotnet-client/pull/95)!)
+
+- JSON data from `AllFlagsState` is now slightly smaller even if you do not use the new option described above, because it completely omits the flag property for event tracking unless that property is true.
+
 ## [5.4.0] - 2018-08-30
 ### Added:
 - The new `LDClient` methods `BoolVariationDetail`, `IntVariationDetail`, `DoubleVariationDetail`, `StringVariationDetail`, and `JsonVariationDetail` allow you to evaluate a feature flag (using the same parameters as you would for `BoolVariation`, etc.) and receive more information about how the value was calculated. This information is returned in an `EvaluationDetail` object, which contains both the result value and an `EvaluationReason` which will tell you, for instance, if the user was individually targeted for the flag or was matched by one of the flag's rules, or if the flag returned the default value due to an error.

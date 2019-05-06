@@ -10,15 +10,15 @@ This version of the LaunchDarkly SDK is compatible with .NET Framework version 4
 Quick setup
 -----------
 
-0. Use [NuGet](http://docs.nuget.org/docs/start-here/using-the-package-manager-console) to add the .NET SDK to your project:
+1. Use [NuGet](http://docs.nuget.org/docs/start-here/using-the-package-manager-console) to add the .NET SDK to your project:
 
         Install-Package LaunchDarkly.Client
 
-1. Import the LaunchDarkly package:
+2. Import the LaunchDarkly package:
 
         using LaunchDarkly.Client;
 
-2. Create a new LDClient with your SDK key:
+3. Create a new LDClient with your SDK key:
 
         LdClient ldClient = new LdClient("YOUR_SDK_KEY");
 
@@ -37,6 +37,23 @@ Your first feature flag
           // the code to run if the feature is off
         }
 
+Database integrations
+---------------------
+
+Separate packages allow feature flag data to be cached with [Redis](https://github.com/launchdarkly/dotnet-client-redis), [DynamoDB](https://github.com/launchdarkly/dotnet-client-dynamodb), or [Consul](https://github.com/launchdarkly/dotnet-client-consul). See ["Using a persistent feature store"](https://docs.launchdarkly.com/v2.0/docs/using-a-persistent-feature-store) for more information.
+
+Using flag data from a file
+---------------------------
+
+For testing purposes, the SDK can be made to read feature flag state from a file or files instead of connecting to LaunchDarkly. See `LaunchDarkly.Client.Files.FileComponents` and ["Reading flags from a file"](https://docs.launchdarkly.com/docs/reading-flags-from-a-file) for more details.
+
+DNS caching issues
+------------------
+
+LaunchDarkly servers operate in a load-balancing framework which may cause their IP addresses to change. This could result in the SDK failing to connect to LaunchDarkly if an old IP address is still in your system's DNS cache.
+
+In .NET, the DNS cache retains IP addresses for two minutes by default. If you are noticing intermittent connection failures that always resolve in two minutes, you may wish to change this setting to a lower value as described [here](https://docs.microsoft.com/en-us/dotnet/api/system.net.servicepointmanager.dnsrefreshtimeout?view=netframework-4.7.2).
+
 Learn more
 -----------
 
@@ -54,7 +71,8 @@ See [Contributing](https://github.com/launchdarkly/dotnet-client/blob/master/CON
 
 Signing
 -------
-The artifacts generated from this repo are signed by LaunchDarkly. The public key file is in this repo at `LaunchDarkly.pk` as well as here:
+
+The published version of the `LaunchDarkly.Client` assembly is digitally signed with Authenticode, and also [strong-named](https://docs.microsoft.com/en-us/dotnet/framework/app-domains/strong-named-assemblies). The public key file is in this repo at `LaunchDarkly.pk` as well as here:
 
 ```
 Public Key:
@@ -67,8 +85,17 @@ edc64131a9efeefd20978dc58c285aa6f548a4282fc6d871fbebeacc13160e88566f427497b625
 Public Key Token: f86add69004e6885
 ```
 
+Building the code locally in the default Debug configuration does not sign the assembly and does not require a key file.
+
+Development notes
+-----------------
+
+This project imports the `dotnet-base` repository as a subtree. See the `README.md` file in that directory for more information.
+
+Releases are done using the release script in `dotnet-base`. Since the published package includes a .NET Framework 4.5 build, the release must be done from Windows.
+
 About LaunchDarkly
------------
+------------------
 
 * LaunchDarkly is a continuous delivery platform that provides feature flags as a service and allows developers to iterate quickly and safely. We allow you to easily flag your features and manage them from the LaunchDarkly dashboard.  With LaunchDarkly, you can:
     * Roll out a new feature to a subset of your users (like a group of users who opt-in to a beta tester group), gathering feedback and bug reports from real-world use cases.
@@ -80,9 +107,9 @@ About LaunchDarkly
     * [JavaScript](http://docs.launchdarkly.com/docs/js-sdk-reference "LaunchDarkly JavaScript SDK")
     * [PHP](http://docs.launchdarkly.com/docs/php-sdk-reference "LaunchDarkly PHP SDK")
     * [Python](http://docs.launchdarkly.com/docs/python-sdk-reference "LaunchDarkly Python SDK")
-    * [Python Twisted](http://docs.launchdarkly.com/docs/python-twisted-sdk-reference "LaunchDarkly Python Twisted SDK")
     * [Go](http://docs.launchdarkly.com/docs/go-sdk-reference "LaunchDarkly Go SDK")
     * [Node.JS](http://docs.launchdarkly.com/docs/node-sdk-reference "LaunchDarkly Node SDK")
+    * [Electron](http://docs.launchdarkly.com/docs/electron-sdk-reference "LaunchDarkly Electron SDK")
     * [.NET](http://docs.launchdarkly.com/docs/dotnet-sdk-reference "LaunchDarkly .Net SDK")
     * [Ruby](http://docs.launchdarkly.com/docs/ruby-sdk-reference "LaunchDarkly Ruby SDK")
     * [iOS](http://docs.launchdarkly.com/docs/ios-sdk-reference "LaunchDarkly iOS SDK")
