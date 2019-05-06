@@ -2,13 +2,14 @@
 using LaunchDarkly.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace LaunchDarkly.Tests
 {
     public class TestUtils
     {
-        public static void AssertJsonEqual(JToken expected, JToken  actual)
+        public static void AssertJsonEqual(JToken expected, JToken actual)
         {
             if (!JToken.DeepEquals(expected, actual))
             {
@@ -17,6 +18,11 @@ namespace LaunchDarkly.Tests
                         JsonConvert.SerializeObject(expected),
                         JsonConvert.SerializeObject(actual)));
             }
+        }
+
+        public static string TestFilePath(string name)
+        {
+            return "./TestFiles/" + name;
         }
 
         public static IFeatureStoreFactory SpecificFeatureStore(IFeatureStore store)
@@ -32,6 +38,12 @@ namespace LaunchDarkly.Tests
         public static IUpdateProcessorFactory SpecificUpdateProcessor(IUpdateProcessor up)
         {
             return new SpecificUpdateProcessorFactory(up);
+        }
+
+        public static IUpdateProcessorFactory UpdateProcessorWithData(
+            IDictionary<IVersionedDataKind, IDictionary<string, IVersionedData>> data)
+        {
+            return new UpdateProcessorFactoryWithData(data);
         }
     }
 
@@ -78,6 +90,48 @@ namespace LaunchDarkly.Tests
         {
             return _up;
         }
+    }
+
+    public class UpdateProcessorFactoryWithData : IUpdateProcessorFactory
+    {
+        private readonly IDictionary<IVersionedDataKind, IDictionary<string, IVersionedData>> _data;
+
+        public UpdateProcessorFactoryWithData(
+            IDictionary<IVersionedDataKind, IDictionary<string, IVersionedData>> data)
+        {
+            _data = data;
+        }
+
+        public IUpdateProcessor CreateUpdateProcessor(Configuration config, IFeatureStore featureStore)
+        {
+            return new UpdateProcessorWithData(featureStore, _data);
+        }
+    }
+
+    public class UpdateProcessorWithData : IUpdateProcessor
+    {
+        private readonly IFeatureStore _store;
+        private readonly IDictionary<IVersionedDataKind, IDictionary<string, IVersionedData>> _data;
+
+        public UpdateProcessorWithData(IFeatureStore store,
+            IDictionary<IVersionedDataKind, IDictionary<string, IVersionedData>> data)
+        {
+            _store = store;
+            _data = data;
+        }
+
+        public Task<bool> Start()
+        {
+            _store.Init(_data);
+            return Task.FromResult(true);
+        }
+
+        public bool Initialized()
+        {
+            return true;
+        }
+        
+        public void Dispose() { }
     }
 
     public class TestEventProcessor : IEventProcessor
