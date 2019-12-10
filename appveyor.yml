@@ -1,0 +1,23 @@
+version: 5.10.0.1-{build}
+
+image: Visual Studio 2017
+skip_branch_with_pr: true
+
+configuration: Release
+platform: Any CPU
+
+before_build:
+  - dotnet restore
+
+build_script:
+  - dotnet build src\LaunchDarkly.ServerSdk\LaunchDarkly.ServerSdk.csproj
+
+after_build:
+  - dotnet pack src\LaunchDarkly.ServerSdk\LaunchDarkly.ServerSdk.csproj
+
+test_script:
+  - dotnet test test\LaunchDarkly.ServerSdk.Tests\LaunchDarkly.ServerSdk.Tests.csproj
+
+artifacts:
+  - path: 'src\LaunchDarkly.ServerSdk\bin\**\*.nupkg'
+    name: Nuget
