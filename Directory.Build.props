@@ -1,0 +1,14 @@
+<Project>
+
+	<PropertyGroup>
+		<Deterministic>true</Deterministic>
+		<IncludeSymbols>true</IncludeSymbols>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<PackageProjectUrl>https://github.com/Brightspace/LaunchDarkly.ServerSdk</PackageProjectUrl>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/Brightspace/LaunchDarkly.ServerSdk</RepositoryUrl>
+	</PropertyGroup>
+
+</Project>

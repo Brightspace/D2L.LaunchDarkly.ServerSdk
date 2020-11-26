@@ -1,0 +1,40 @@
+name: build
+on: [push]
+
+env:
+    VERSION_PREFIX: "5.11.0.3"
+
+jobs:
+    build:
+        runs-on: windows-latest
+
+        steps:
+
+          - uses: Brightspace/third-party-actions@actions/checkout
+
+          - name: Setup .NET Core
+            uses:  Brightspace/third-party-actions@actions/setup-dotnet
+            with:
+                dotnet-version: 3.1.x
+
+          - name: Versioning
+            run: .github/scripts/version.sh src/LaunchDarkly.ServerSdk/VersionInfo.props
+            shell: bash
+
+          - name: dotnet restore
+            run: dotnet restore
+
+          - name: dotnet test
+            run: dotnet test --configuration
+
+          - name: dotnet pack
+            run: dotnet pack --configuration
+
+          - name: Copy *.nuget to dist/
+            run: mkdir dist/ && cp src/LaunchDarkly.ServerSdk/bin/Release/*.nupkg dist/
+
+          - name: Archive dist/
+            uses: actions/upload-artifact@v1
+            with:
+                name: dist
+                path: dist/
