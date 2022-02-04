@@ -2,6 +2,7 @@
 	<Import Project="LaunchDarkly.ServerSdk.csproj" />
 	<PropertyGroup>
 		<AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder>.pdb; .mdb; $(AllowedOutputExtensionsInPackageBuildOutputFolder)</AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder>
+		<CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
 		<Deterministic>true</Deterministic>
 		<IncludeSymbols>true</IncludeSymbols>
 		<IsPackable>true</IsPackable>
@@ -12,6 +13,7 @@
 	</PropertyGroup>
 	<PropertyGroup>
 		<PackageProjectUrl>https://github.com/Brightspace/D2L.LaunchDarkly.ServerSdk</PackageProjectUrl>
+		<RepositoryBranch>main</RepositoryBranch>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/Brightspace/D2L.LaunchDarkly.ServerSdk</RepositoryUrl>
 	</PropertyGroup>

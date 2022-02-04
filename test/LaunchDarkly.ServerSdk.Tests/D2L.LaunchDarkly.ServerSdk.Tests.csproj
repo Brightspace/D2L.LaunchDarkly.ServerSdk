@@ -3,4 +3,8 @@
 	<PropertyGroup>
 		<TargetFrameworks>net472;net6.0</TargetFrameworks>
 	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Remove="..\..\src\LaunchDarkly.ServerSdk\LaunchDarkly.ServerSdk.csproj" />
+		<ProjectReference Include="..\..\src\LaunchDarkly.ServerSdk\D2L.LaunchDarkly.ServerSdk.csproj" />
+	</ItemGroup>
 </Project>
