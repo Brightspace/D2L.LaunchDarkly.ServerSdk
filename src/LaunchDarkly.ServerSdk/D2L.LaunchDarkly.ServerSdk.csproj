@@ -16,5 +16,6 @@
 		<RepositoryBranch>main</RepositoryBranch>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/Brightspace/D2L.LaunchDarkly.ServerSdk</RepositoryUrl>
+		<Version Condition="'$(GITHUB_RUN_NUMBER)' != ''">$(Version).$(GITHUB_RUN_NUMBER)</Version>
 	</PropertyGroup>
 </Project>

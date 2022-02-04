@@ -18,4 +18,11 @@ jobs:
 
           - run: dotnet restore D2L.LaunchDarkly.ServerSdk.sln
           - run: dotnet test D2L.LaunchDarkly.ServerSdk.sln --configuration Debug
-          - run: dotnet pack D2L.LaunchDarkly.ServerSdk.sln --configuration Release
+
+          - shell: bash
+            run: |
+              dotnet pack src/LaunchDarkly.ServerSdk/D2L.LaunchDarkly.ServerSdk.csproj \
+                --configuration Release \
+                -p:GITHUB_REF=$GITHUB_REF \
+                -p:GITHUB_RUN_NUMBER=$GITHUB_RUN_NUMBER \
+                -p:GITHUB_SHA=$GITHUB_SHA
