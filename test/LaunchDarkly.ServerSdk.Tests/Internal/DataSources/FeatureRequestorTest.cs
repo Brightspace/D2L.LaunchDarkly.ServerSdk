@@ -57,7 +57,7 @@ namespace LaunchDarkly.Sdk.Server.Internal.DataSources
 
                 using (var requestor = MakeRequestor(baseUri))
                 {
-                    await requestor.GetAllDataAsync().ConfigureAwait( false );
+                    await requestor.GetAllDataAsync();
 
                     var req = server.Recorder.RequireRequest();
 
@@ -75,7 +75,7 @@ namespace LaunchDarkly.Sdk.Server.Internal.DataSources
             {
                 using (var requestor = MakeRequestor(server))
                 {
-                    var result = await requestor.GetAllDataAsync().ConfigureAwait(false);
+                    var result = await requestor.GetAllDataAsync();
 
                     var req = server.Recorder.RequireRequest();
                     Assert.Equal("/sdk/latest-all", req.Path);
@@ -95,8 +95,8 @@ namespace LaunchDarkly.Sdk.Server.Internal.DataSources
             {
                 using (var requestor = MakeRequestor(server))
                 {
-                    await requestor.GetAllDataAsync().ConfigureAwait(false);
-                    await requestor.GetAllDataAsync().ConfigureAwait(false);
+                    await requestor.GetAllDataAsync();
+                    await requestor.GetAllDataAsync();
 
                     var req1 = server.Recorder.RequireRequest();
                     var req2 = server.Recorder.RequireRequest();
