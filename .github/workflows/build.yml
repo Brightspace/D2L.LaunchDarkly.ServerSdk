@@ -17,5 +17,5 @@ jobs:
           - uses: Brightspace/third-party-actions@actions/checkout
 
           - run: dotnet restore D2L.LaunchDarkly.ServerSdk.sln
-          - run: dotnet test --configuration Release D2L.LaunchDarkly.ServerSdk.sln
-          - run: dotnet pack --configuration Release D2L.LaunchDarkly.ServerSdk.sln
+          - run: dotnet test D2L.LaunchDarkly.ServerSdk.sln --configuration Release
+          - run: dotnet pack D2L.LaunchDarkly.ServerSdk.sln --configuration Release
