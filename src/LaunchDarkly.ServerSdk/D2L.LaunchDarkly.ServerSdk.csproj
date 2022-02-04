@@ -1,0 +1,25 @@
+﻿<Project>
+	<Import Project="LaunchDarkly.ServerSdk.csproj" />
+	<PropertyGroup>
+		<AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder>.pdb; .mdb; $(AllowedOutputExtensionsInPackageBuildOutputFolder)</AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder>
+		<CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+		<Deterministic>true</Deterministic>
+		<IncludeSymbols>true</IncludeSymbols>
+		<IsPackable>true</IsPackable>
+		<PackageId>D2L.LaunchDarkly.ServerSdk</PackageId>
+		<SignAssembly>false</SignAssembly>
+		<SymbolPackageFormat>symbols.nupkg</SymbolPackageFormat>
+		<TargetFrameworks>netstandard2.0</TargetFrameworks>
+	</PropertyGroup>
+	<PropertyGroup>
+		<PackageProjectUrl>https://github.com/Brightspace/D2L.LaunchDarkly.ServerSdk</PackageProjectUrl>
+		<RepositoryBranch>main</RepositoryBranch>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/Brightspace/D2L.LaunchDarkly.ServerSdk</RepositoryUrl>
+	</PropertyGroup>
+	<PropertyGroup>
+		<RepositoryCommit Condition="'$(GITHUB_SHA)' != ''">$(GITHUB_SHA)</RepositoryCommit>
+		<Version Condition="'$(GITHUB_RUN_NUMBER)' != ''">$(Version).$(GITHUB_RUN_NUMBER)</Version>
+		<VersionSuffix Condition="'$(GITHUB_REF)' != 'ref/origin/main'">alpha</VersionSuffix>
+	</PropertyGroup>
+</Project>

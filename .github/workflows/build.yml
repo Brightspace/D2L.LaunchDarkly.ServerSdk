@@ -1,0 +1,28 @@
+name: build
+on: [push]
+
+env:
+    VERSION_PREFIX: "6.3.1"
+
+jobs:
+    build:
+        runs-on: [windows-latest]
+
+        steps:
+
+          - uses:  Brightspace/third-party-actions@actions/setup-dotnet
+            with:
+                dotnet-version: 6.0.x
+
+          - uses: Brightspace/third-party-actions@actions/checkout
+
+          - run: dotnet restore D2L.LaunchDarkly.ServerSdk.sln
+          - run: dotnet test D2L.LaunchDarkly.ServerSdk.sln --configuration Debug
+
+          - shell: bash
+            run: |
+              dotnet pack src/LaunchDarkly.ServerSdk/D2L.LaunchDarkly.ServerSdk.csproj \
+                --configuration Release \
+                -p:GITHUB_REF=$GITHUB_REF \
+                -p:GITHUB_RUN_NUMBER=$GITHUB_RUN_NUMBER \
+                -p:GITHUB_SHA=$GITHUB_SHA
