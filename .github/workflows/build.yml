@@ -10,6 +10,10 @@ jobs:
 
         steps:
 
+          - uses:  Brightspace/third-party-actions@actions/setup-dotnet
+            with:
+                dotnet-version: 6.0.x
+
           - uses: Brightspace/third-party-actions@actions/checkout
 
           - run: dotnet restore D2L.LaunchDarkly.ServerSdk.sln
