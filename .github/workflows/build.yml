@@ -1,0 +1,25 @@
+name: build
+on: [push]
+
+env:
+    VERSION_PREFIX: "6.3.1"
+
+jobs:
+    build:
+        runs-on: [self-hosted, AWS, Linux]
+
+        steps:
+
+          - uses: Brightspace/third-party-actions@actions/checkout
+
+          - uses:  Brightspace/third-party-actions@actions/setup-dotnet
+            with:
+                dotnet-version: 6.0.x
+
+          - run: dotnet tool restore
+          - run: dotnet ci-version-properties --output VersionInfo.props && cat VersionInfo.props
+
+          - run: dotnet restore
+          - run: dotnet test --configuration Release
+          - run: dotnet pack --configuration Release
+

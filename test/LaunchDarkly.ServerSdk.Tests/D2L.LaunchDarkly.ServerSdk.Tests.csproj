@@ -1,0 +1,6 @@
+<Project>
+	<Import Project="LaunchDarkly.ServerSdk.Tests.csproj" />
+	<PropertyGroup>
+		<TargetFrameworks>net472;net6.0</TargetFrameworks>
+	</PropertyGroup>
+</Project>
