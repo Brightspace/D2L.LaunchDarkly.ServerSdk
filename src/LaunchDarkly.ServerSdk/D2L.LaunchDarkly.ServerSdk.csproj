@@ -17,4 +17,7 @@
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/Brightspace/D2L.LaunchDarkly.ServerSdk</RepositoryUrl>
 	</PropertyGroup>
+	<ItemGroup>
+		<InternalsVisibleTo Include="D2L.LaunchDarkly.ServerSdk.Tests" />
+	</ItemGroup>
 </Project>
